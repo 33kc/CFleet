@@ -1,8 +1,8 @@
-base project, i have a lot to finish up
+base project, i have a lot to finish up <br>
 
 
-main stuff rn:
-find a http library
-make api calls
-parse json from the calls
-output
+main stuff rn: <br>
+find a http library<br>
+make api calls<br>
+parse json from the calls<br>
+output<br>

@@ -1,6 +1,5 @@
-base project, i have a lot to finish up <br>
-
-
+incomplete project
+<br>
 main stuff rn: <br>
 take cli input and parameters <br>
 call functions with regard to parameters <br>

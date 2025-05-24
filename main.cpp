@@ -1,67 +1,103 @@
-#include<iostream>
-#include<vector>
-#include<string>
+#include <iostream>
+#include <cpr/cpr.h>
+#include <nlohmann/json.hpp>
+
+
 using namespace std;
+using json= nlohmann::json;
 
-string baseUrl = "https://codeforces.com/api/";
 
-void help()
+string url="https://codeforces.com/api/";
+
+
+string make_req(string& url)
 {
-	cout << "Usage: dfslgjndsgsudfhgsidufbgi <section> <subcommands...>\n";
+    cpr::Response response = cpr::Get(cpr::Url{url});
+    return response.text;
 }
 
-void blog(vector<string> parameters)
+/* -- BLOGS -- */
+string blogEntry(string action,string id)
 {
-	if (parameters.size() >= 2 && parameters[0] == "comments")
-	{
-		string blogEntryId = parameters[1];
-		string fullUrl = baseUrl + "blogEntry.comments?blogEntryId=" + blogEntryId;
-		cout << "Calling: " << fullUrl << endl;
-		// do the api call later
-	}
-	else
-	{
-		cout << "Usage: someNameThatIwillCOmeUpwithLaterBecauseImOutofCreativityRN blog comments <blogEntryId>\n";
-	}
+    if(action=="view")
+    {
+        url+="blogEntry.view?blogEntryId="+id;
+    }
+    if(action=="comments")
+    {
+      url+="blogEntry.comments?blogEntryId="+id;
+    }
+    return make_req(url);
 }
 
-void contest(vector<string> parameters)
+
+/* -- CONTESTS -- */
+/*
+string contest_hacks(string id, string asManager)
 {
-	
+    url+="contest.hacks?contestId="+id;
+    return make_req(url);
 }
 
-void problemset(vector<string> parameters)
+string contest_list( string gym, string groupCode)
 {
-	
+    if(gym=="true")url+="contest.lists?gym="+gym;
+    return make_req(url);
 }
 
-void recentActions(int count)
+string contest_ratingChanges(string id)
 {
-	
+    url+="contest.ratingChanges?contestId="+id;
+    return make_req(url);
 }
 
-void user(vector<string> parameters)
+string contest_standings(string id, string asManager, string from, string count, string handles, string room, string showUnofficial, string participantTypes)
 {
 
+    url+="contest.standings?contestId="+id+"&from="+from+"&count="+count+"&showUnofficial=true";
+    return make_req(url);
 }
+*/
+
+
+void problemset();
+void recentActions();
+void user();
+
 
 int main(int argc, char* argv[])
 {
-	if (argc < 2)
-	{
-		help();
-		return 1;
-	}
-
-	string section = argv[1];
-	vector<string> subparams;
-	for (int i = 2; i < argc; i++) subparams.push_back(argv[i]);
-
-	if (section == "user") user(subparams);
-	else if (section == "contest") contest(subparams);
-	else if (section == "problemset") problemset(subparams);
-	else if (section == "blog") blog(subparams);
-	else help();
-
-	return 0;
-}
+    if(argc<2) return -1;
+    string command = argv[1];
+    if(command=="blogEntry")
+    {
+        json j = json::parse(blogEntry(argv[2],argv[3]));
+        std::cout << j.dump(4) << std::endl;
+    }
+    /*
+    if(command=="contest")
+    {
+        string sub = argv[2];
+        if(sub=="hacks")
+        {
+            json j = json::parse(contest_hacks(argv[3],argv[4]));
+            cout << j.dump(4) << '\n';
+        }
+        if(sub=="list")
+        {
+            json j = json::parse(contest_list(argv[3],argv[4]));
+            cout << j.dump(4) << '\n';
+        }
+        if(sub=="ratingChanges")
+        {
+            json j = json::parse(contest_ratingChanges(argv[2]));
+            cout << j.dump(4) << '\n';
+        }
+        if(sub=="standings")
+        {
+            json j = json::parse(contest_standings(argv[3],argv[4],argv[5],argv[6],argv[7],argv[8],argv[9], argv[10]));
+            cout << j.dump(4) << '\n';
+        }
+    }
+    */
+} 

@@ -161,6 +161,7 @@ int main(int argc, char* argv[])
         return -1;
     }
     string command = argv[1];
+    if (command == "help") help();
     if(command=="blogEntry")
     {
         json j = json::parse(blogEntry(argv[2],argv[3]));
